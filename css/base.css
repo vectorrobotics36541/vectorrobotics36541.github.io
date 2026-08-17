@@ -1,0 +1,282 @@
+/* ============================================================
+   VECTOR ROBOTICS — FTC 36541
+   base.css — tokens, reset, typography, layout primitives
+   ============================================================ */
+
+:root{
+  /* ---- brand, sampled from assets/logo.png ---- */
+  --lime:       #c6ff3d;
+  --lime-hot:   #e2ff8a;
+  --lime-deep:  #64b51b;
+  --navy:       #091e42;
+  --steel:      #1d4374;
+  --cyan:       #5cc8ff;
+
+  /* ---- ground ---- */
+  --black:      #000000;
+  --void:       #040406;
+  --surface:    #0a0b10;
+  --surface-2:  #101219;
+
+  /* ---- ink ---- */
+  --paper:      #ffffff;
+  --paper-2:    #d5dae4;
+  --muted:      #8a93a6;
+  --muted-2:    #565e70;
+
+  /* ---- lines ---- */
+  --line:       rgba(255,255,255,.09);
+  --line-2:     rgba(255,255,255,.18);
+  --lime-soft:  rgba(198,255,61,.22);
+
+  /* ---- type ---- */
+  --display: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --body:    'Inter', ui-sans-serif, system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, Menlo, monospace;
+
+  /* ---- rhythm ---- */
+  --gutter:  clamp(18px, 4.5vw, 76px);
+  --bay:     clamp(96px, 16vh, 210px);
+  --maxw:    1560px;
+  --nav-h:   72px;
+
+  /* ---- motion ---- */
+  --ease:    cubic-bezier(.19,1,.22,1);
+  --ease-io: cubic-bezier(.76,0,.24,1);
+}
+
+*,*::before,*::after{ box-sizing:border-box; }
+*{ margin:0; padding:0; }
+
+html{
+  -webkit-text-size-adjust:100%;
+  scroll-behavior:smooth;
+  scroll-padding-top:calc(var(--nav-h) + 20px);
+  background:var(--black);
+  /* also on html: with it only on body, the mobile layout viewport can
+     still widen past device-width and push fixed UI off-screen */
+  overflow-x:clip;
+}
+
+body{
+  background:var(--black);
+  color:var(--paper);
+  font-family:var(--body);
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  overflow-x:clip;
+}
+
+img,svg,canvas{ display:block; max-width:100%; }
+img{ height:auto; }
+a{ color:inherit; text-decoration:none; }
+button{ font:inherit; color:inherit; background:none; border:none; }
+ul,ol{ list-style:none; }
+
+::selection{ background:var(--lime); color:var(--black); }
+
+:focus-visible{ outline:2px solid var(--lime); outline-offset:4px; border-radius:2px; }
+:focus:not(:focus-visible){ outline:none; }
+
+.skip-link{
+  position:fixed; top:10px; left:10px; z-index:9999;
+  padding:12px 20px;
+  background:var(--lime); color:var(--black);
+  font-family:var(--mono); font-size:.78rem; font-weight:600;
+  transform:translateY(-180%);
+  transition:transform .3s var(--ease);
+}
+.skip-link:focus{ transform:translateY(0); }
+
+/* ============================================================
+   TYPE
+   The scale is deliberately extreme: enormous display sizes
+   against tiny mono labels. That contrast is what makes the
+   page feel designed rather than merely tidy.
+   ============================================================ */
+.d1{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(3.6rem, 15.5vw, 15rem);
+  line-height:.82;
+  letter-spacing:-.055em;
+  text-transform:uppercase;
+}
+.d2{
+  font-family:var(--display);
+  font-weight:700;
+  font-size:clamp(2.5rem, 8.2vw, 7.2rem);
+  line-height:.88;
+  letter-spacing:-.045em;
+  text-transform:uppercase;
+}
+.d3{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(1.5rem, 3vw, 2.5rem);
+  line-height:1.05;
+  letter-spacing:-.03em;
+}
+.d4{
+  font-family:var(--display);
+  font-weight:600;
+  font-size:clamp(1.12rem, 1.5vw, 1.35rem);
+  line-height:1.2;
+  letter-spacing:-.02em;
+}
+
+h1,h2,h3,h4{ font-family:var(--display); font-weight:600; letter-spacing:-.025em; }
+
+/* outlined display type — used for counterpoint against solid */
+.hollow{
+  color:transparent;
+  -webkit-text-stroke:1px var(--line-2);
+}
+.hollow-lime{ -webkit-text-stroke-color:var(--lime); }
+@supports not (-webkit-text-stroke: 1px black){
+  .hollow{ color:var(--muted-2); }
+  .hollow-lime{ color:var(--lime); }
+}
+
+.lede{
+  color:var(--paper-2);
+  font-size:clamp(1.02rem, 1.15vw, 1.22rem);
+  line-height:1.62;
+  max-width:52ch;
+}
+.lede strong{ color:var(--lime); font-weight:500; }
+
+.label{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  font-family:var(--mono);
+  font-size:.67rem;
+  font-weight:500;
+  letter-spacing:.26em;
+  text-transform:uppercase;
+  color:var(--lime);
+}
+.label::before{
+  content:"";
+  width:22px; height:1px;
+  background:currentColor;
+  flex-shrink:0;
+}
+.label.plain::before{ display:none; }
+
+.mono{ font-family:var(--mono); }
+.tnum{ font-variant-numeric:tabular-nums; }
+.muted{ color:var(--muted); }
+.accent{ color:var(--lime); }
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.shell{
+  width:100%;
+  max-width:var(--maxw);
+  margin-inline:auto;
+  padding-inline:var(--gutter);
+}
+.bay{ padding-block:var(--bay); position:relative; }
+
+/* 12-column bed for asymmetric placement */
+.grid12{
+  display:grid;
+  grid-template-columns:repeat(12, minmax(0,1fr));
+  gap:clamp(14px, 1.6vw, 28px);
+}
+.c-1-5  { grid-column:1 / span 5; }
+.c-1-6  { grid-column:1 / span 6; }
+.c-1-7  { grid-column:1 / span 7; }
+.c-6-7  { grid-column:6 / span 7; }
+.c-7-6  { grid-column:7 / span 6; }
+.c-8-5  { grid-column:8 / span 5; }
+.c-full { grid-column:1 / -1; }
+
+@media (max-width:900px){
+  .c-1-5,.c-1-6,.c-1-7,.c-6-7,.c-7-6,.c-8-5{ grid-column:1 / -1; }
+}
+
+/* section masthead: giant heading + supporting column */
+.masthead{ margin-bottom:clamp(44px, 6vw, 96px); }
+.masthead .label{ margin-bottom:26px; }
+.masthead h2{ margin-bottom:0; }
+
+.rule{ height:1px; background:var(--line); border:0; }
+
+/* ============================================================
+   AMBIENT LAYERS
+   ============================================================ */
+/* the persistent 3D scene sits behind everything */
+#scene{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+.aurora{
+  position:fixed; inset:0; z-index:1;
+  pointer-events:none;
+  background:
+    radial-gradient(60% 44% at 78% 16%, rgba(92,200,255,.10), transparent 62%),
+    radial-gradient(52% 40% at 12% 78%, rgba(198,255,61,.075), transparent 64%);
+}
+
+.grain{
+  position:fixed; inset:-120%;
+  z-index:9000;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grain 7s steps(6) infinite;
+}
+@keyframes grain{
+  0%,100%{ transform:translate(0,0); }
+  20%{ transform:translate(-3%,2%); }
+  40%{ transform:translate(2%,-3%); }
+  60%{ transform:translate(-2%,-2%); }
+  80%{ transform:translate(3%,1%); }
+}
+
+/* content rides above the scene */
+.page{ position:relative; z-index:3; }
+
+/* a soft plate that keeps long-form text legible over the 3D */
+.plate{
+  position:relative;
+  isolation:isolate;
+}
+.plate::before{
+  content:"";
+  position:absolute;
+  /* no horizontal bleed: a percentage inset here widened the layout
+     viewport on phones, which pushed every fixed layer off-screen.
+     The gradient feathers to transparent on its own. */
+  inset:-14% 0;
+  z-index:-1;
+  background:radial-gradient(86% 66% at 28% 50%, rgba(4,4,6,.95) 26%, rgba(4,4,6,0) 80%);
+  pointer-events:none;
+}
+
+.sr-only{
+  position:absolute; width:1px; height:1px;
+  padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0 0 0 0); white-space:nowrap; border:0;
+}
+
+@media (prefers-reduced-motion: reduce){
+  html{ scroll-behavior:auto; }
+  *,*::before,*::after{
+    animation-duration:.001ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.001ms !important;
+  }
+  .grain{ animation:none; }
+}
