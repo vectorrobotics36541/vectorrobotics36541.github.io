@@ -417,6 +417,7 @@
   transition:background .4s var(--ease), color .4s var(--ease);
 }
 .slot:hover{ background:var(--surface-2); color:var(--lime); }
+.slot img{ max-width:100%; max-height:100%; object-fit:contain; }
 
 .tiers{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 .tier{ padding:clamp(26px,2.6vw,36px); display:flex; flex-direction:column; }
