@@ -69,7 +69,29 @@ spine fills automatically as you scroll, however many you add.
 
 ---
 
-## 4. Sponsors — "SPONSORS" section
+## 4. Members — "MEMBERS" section
+
+Nine headshots from `assets/team-headshots/` are in, one card each, alphabetical
+by first name. Each card's role is still a placeholder:
+
+```html
+<div class="member-meta"><h4 class="d4">Advik</h4><span class="v todo">[ROLE]</span></div>
+```
+
+Replace `[ROLE]` with each person's actual title (e.g. "Team Captain",
+"Programming Lead", "Mentor") — grep for it the same way as everything else:
+
+```bash
+grep -n "member-meta" index.html
+```
+
+Add more people by copying a whole `<article class="member">…</article>` block
+and dropping a matching photo into `assets/team-headshots/`. Cards are square
+(`object-fit: cover`), so a roughly centred face crops cleanly.
+
+---
+
+## 5. Sponsors — "SPONSORS" section
 
 Four `[ SPONSOR LOGO ]` slots. Replace each `<div class="slot">…</div>` with:
 
@@ -85,7 +107,7 @@ you actually offer before sending this to anyone.
 
 ---
 
-## 5. Join — "JOIN" section
+## 6. Join — "JOIN" section
 
 | What | Current |
 |---|---|
@@ -97,7 +119,7 @@ you actually offer before sending this to anyone.
 
 ---
 
-## 6. Social preview image (optional)
+## 7. Social preview image (optional)
 
 `og:image` currently points at the logo. For a proper link preview, make a
 1200×630 image, save it as `assets/og.png`, and set an absolute URL:
@@ -112,6 +134,6 @@ Open Graph images generally need an absolute URL to work on most platforms.
 
 ## Things I deliberately did **not** invent
 
-I wrote no fake awards, results, dates, roster names or sponsor names. The
-mission and subteam copy is expanded from your original text; everything
-factual is either real or visibly marked as a placeholder.
+I wrote no fake awards, results, dates, roster names, sponsor names, or member
+roles. The mission and subteam copy is expanded from your original text;
+everything factual is either real or visibly marked as a placeholder.
