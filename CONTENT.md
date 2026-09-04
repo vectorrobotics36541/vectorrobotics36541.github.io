@@ -71,8 +71,9 @@ spine fills automatically as you scroll, however many you add.
 
 ## 4. Members — "MEMBERS" section
 
-Nine headshots from `assets/team-headshots/` are in, one card each, alphabetical
-by first name. Each card's role is still a placeholder:
+Nine headshots from `assets/team-headshots/` are in, one card each — Vyom
+first, the rest alphabetical by first name. Each card's role is still a
+placeholder:
 
 ```html
 <div class="member-meta"><h4 class="d4">Advik</h4><span class="v todo">[ROLE]</span></div>
