@@ -131,7 +131,7 @@ void main(){
 
   // parts drift outward from the assembly centre; the ground plane stays put
   if(aPart > 0.5){
-    vec3 dir = aOrig - vec3(0.0, 6.2, 0.0);
+    vec3 dir = aOrig - vec3(0.0, 4.5, 0.0);
     float l = length(dir);
     dir = l > 0.001 ? dir / l : vec3(0.0, 1.0, 0.0);
     p += dir * uExplode * 4.6;
@@ -176,7 +176,8 @@ function smoothstep(e0, e1, x){
 }
 
 const FOV = 42 * Math.PI / 180;
-const CENTRE_Y = 6.2;
+const CENTRE_Y = 4.5;      // assembly centre; must match the vec3 in ROBOT_VS
+const EXPLODE_DIST = 4.6;  // must match the explode distance in ROBOT_VS
 
 export function initScene(canvas, opts = {}){
   const { reduceMotion = false, calloutHost = null } = opts;
@@ -451,12 +452,16 @@ export function initScene(canvas, opts = {}){
       const W = window.innerWidth, H = window.innerHeight;
       for(const c of callouts){
         if(!show){ c.el.classList.remove('is-on'); continue; }
-        const dir = [c.pos[0], c.pos[1] - CENTRE_Y, c.pos[2]];
+        // ride along with the part: same direction (from the part's origin)
+        // and distance as the explode in ROBOT_VS, or the label drifts off
+        // the thing it names
+        const o = c.orig || c.pos;
+        const dir = [o[0], o[1] - CENTRE_Y, o[2]];
         const l = Math.hypot(...dir) || 1;
         const p = [
-          c.pos[0] + dir[0] / l * cur.explode * 7,
-          c.pos[1] + dir[1] / l * cur.explode * 7,
-          c.pos[2] + dir[2] / l * cur.explode * 7
+          c.pos[0] + dir[0] / l * cur.explode * EXPLODE_DIST,
+          c.pos[1] + dir[1] / l * cur.explode * EXPLODE_DIST,
+          c.pos[2] + dir[2] / l * cur.explode * EXPLODE_DIST
         ];
         transformPoint(mvp, p, clip);
         if(clip[3] <= 0.01){ c.el.classList.remove('is-on'); continue; }

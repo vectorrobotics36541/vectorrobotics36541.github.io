@@ -38,12 +38,19 @@ Control system is set to **REV Control Hub** and status to **In active iteration
 ### Changing the 3D robot itself
 
 The model is generated in code, not loaded from a file:
-`js/webgl/geometry.js` → `buildRobot()`. Useful knobs:
+`js/webgl/geometry.js` → `buildRobot()`. It currently follows the reference
+CAD we're building from (FTC 19564's public V4 robot on Onshape) — main shapes
+only. Every dimension is in **millimetres in that CAD's frame** (X front→back,
+Y across, Z up), converted by the `P(x, y, z)` helper, so you can read numbers
+straight off Onshape's measure tool. Useful knobs:
 
-- Chassis size — the `W.box(0, CY, 0, 4.7, 1.2, 4.7, ...)` call (half-extents)
-- Wheels — the four `wheel(W, x, z, side, order)` calls
-- Lift height — `TY1`
+- Side plate shape — `SIDE_PLATE` (X/Z outline points)
+- Turret cheek plate shape — `TURRET_PLATE`; turret positions — `TURRETS`
+- Wheels — the four `mecanum(...)` calls (centre, radius, side)
+- Intake / transfer rollers — the `compliant(...)` loops
 - Labels — the `anchors` array at the bottom; each is a 3D point plus text
+
+When our own robot is designed, swap these numbers for its CAD.
 
 Each `W.group(PART.X, origin)` call tags everything after it as one part.
 That tag drives two things: which direction the piece flies when the
